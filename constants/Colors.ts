@@ -13,6 +13,7 @@ export const Colors = {
   neutral: {
     primary: "#1B1C1F",
     secondary: "#767E8C",
+    light: "#F3F5F9",
   },
   light: {
     text: "#11181C",

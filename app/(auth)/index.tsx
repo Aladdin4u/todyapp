@@ -1,6 +1,7 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
@@ -100,14 +101,14 @@ export default function IntroScreen() {
   };
 
   const onDone = () => {
-    // User finished the introduction. Show real app through
-    // navigation or simply by controlling state
-    console.log("done");
+    router.navigate("/(auth)/home");
   };
   
   const styles = StyleSheet.create({
     buttonNext: {
       borderRadius: 16,
+      fontSize: 18,
+      padding: 6,
     },
     desc: {
       textAlign: "center",

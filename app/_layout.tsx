@@ -1,4 +1,3 @@
-
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -10,7 +9,9 @@ import "react-native-reanimated";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    SFPROBold: require("../assets/fonts/SFPRODISPLAYBOLD.otf"),
+    SFPROMedium: require("../assets/fonts/SFPRODISPLAYMEDIUM.otf"),
+    SFPRORegular: require("../assets/fonts/SFPRODISPLAYREGULAR.otf"),
   });
 
   if (!loaded) {
@@ -24,18 +25,16 @@ export default function RootLayout() {
       ...DefaultTheme.colors,
       primary: "#1C967E",
       error: "#FF486A",
-      
     },
   };
 
-
   return (
-      <PaperProvider theme={theme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
-      </PaperProvider>
+    <PaperProvider theme={theme}>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <StatusBar style="auto" />
+    </PaperProvider>
   );
 }

@@ -35,7 +35,7 @@ export function ThemedText({
 
 const styles = StyleSheet.create({
   default: {
-    fontFamily: "SFPRORegular",
+    fontFamily: "SFPROMedium",
     fontSize: 16,
     lineHeight: 24,
   },

@@ -1,6 +1,7 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -26,6 +27,7 @@ export default function AuthHomeScreen() {
         )}
         mode="contained"
         style={[styles.button, { width: "100%" }]}
+        onPress={() => router.navigate("/(auth)/login")}
       >
         Continue with email
       </Button>

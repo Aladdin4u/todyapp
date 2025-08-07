@@ -1,3 +1,6 @@
+import { Colors } from "@/constants/Colors";
+import { SplashScreenController } from "@/components/splash";
+import { SessionProvider, useSession } from "@/utils/ctx";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -6,9 +9,19 @@ import {
   PaperProvider,
 } from "react-native-paper";
 import "react-native-reanimated";
-import { Colors } from "@/constants/Colors";
 
 export default function RootLayout() {
+  return (
+    <SessionProvider>
+      <SplashScreenController />
+      <RootNavigator />
+    </SessionProvider>
+  );
+}
+
+function RootNavigator() {
+  const { session } = useSession();
+
   const [loaded] = useFonts({
     SFPROBold: require("../assets/fonts/SFPRODISPLAYBOLD.otf"),
     SFPROMedium: require("../assets/fonts/SFPRODISPLAYMEDIUM.otf"),
@@ -32,11 +45,16 @@ export default function RootLayout() {
   return (
     <PaperProvider theme={theme}>
       <Stack>
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+        <Stack.Protected guard={!session}>
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        </Stack.Protected>
+
+        <Stack.Protected guard={session}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack.Protected>
+        <StatusBar style="auto" />
       </Stack>
-      <StatusBar style="auto" />
     </PaperProvider>
   );
 }

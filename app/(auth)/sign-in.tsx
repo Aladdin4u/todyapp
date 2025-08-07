@@ -1,7 +1,8 @@
 import Input from "@/components/Input";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
-import { useLocalSearchParams } from "expo-router";
+import { useSession } from "@/utils/ctx";
+import { router, useLocalSearchParams } from "expo-router";
 import { Formik, FormikValues } from "formik";
 import { useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
@@ -20,6 +21,7 @@ const SigninSchema = Yup.object().shape({
 });
 
 export default function SignInScreen() {
+  const { signIn } = useSession();
   const insets = useSafeAreaInsets();
   const { email } = useLocalSearchParams<{
     email: string;
@@ -34,6 +36,8 @@ export default function SignInScreen() {
     console.log(email, values);
     try {
       //
+      signIn("xxx");
+      // router.replace("/(tabs)");
     } catch (e) {
       console.log(e);
     }

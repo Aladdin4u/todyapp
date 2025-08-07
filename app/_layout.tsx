@@ -6,6 +6,7 @@ import {
   PaperProvider,
 } from "react-native-paper";
 import "react-native-reanimated";
+import { Colors } from "@/constants/Colors";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -23,7 +24,7 @@ export default function RootLayout() {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      primary: "#1C967E",
+      primary: Colors.primary,
       error: "#FF486A",
     },
   };

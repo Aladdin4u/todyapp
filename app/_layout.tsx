@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
-import { SplashScreenController } from "@/components/splash";
 import { SessionProvider, useSession } from "@/utils/ctx";
+import { SplashScreenController } from "@/components/splash";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";

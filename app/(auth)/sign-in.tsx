@@ -2,10 +2,10 @@ import Input from "@/components/Input";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
 import { useSession } from "@/utils/ctx";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { Formik, FormikValues } from "formik";
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Alert, SafeAreaView, StyleSheet, View } from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
@@ -29,17 +29,22 @@ export default function SignInScreen() {
 
   const [open, setOpen] = useState(false);
 
-  console.log("got email:", email);
-
   const onSubmit = async (values: FormikValues) => {
-    const { email, username, password } = values;
-    console.log(email, values);
     try {
-      //
-      signIn("xxx");
-      // router.replace("/(tabs)");
+      const response = await fetch("/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
+      console.log("data", data);
+      if (data?.accessToken) {
+        signIn(JSON.stringify(data));
+      } else {
+        Alert.alert('Error',data.message);
+      }
     } catch (e) {
-      console.log(e);
+      console.error("err", e);
     }
   };
 

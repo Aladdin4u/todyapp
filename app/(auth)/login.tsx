@@ -3,7 +3,15 @@ import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
 import { Formik, FormikValues } from "formik";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { Button, HelperText } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
@@ -27,58 +35,65 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
-      <Formik
-        initialValues={{ email: "" }}
-        validationSchema={SigninSchema}
-        onSubmit={onSubmit}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.container}
       >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
-          <View style={styles.form}>
-            <View>
-              <ThemedText type="defaultSemiBold" style={styles.text}>
-                Welcome Back!
-              </ThemedText>
-              <ThemedText
-                type="subtitle"
-                style={[styles.text, { color: Colors.neutral.secondary }]}
-              >
-                Your work faster and structured with Todyapp
-              </ThemedText>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Formik
+            initialValues={{ email: "" }}
+            validationSchema={SigninSchema}
+            onSubmit={onSubmit}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+            }) => (
+              <View style={styles.form}>
+                <View>
+                  <ThemedText type="defaultSemiBold" style={[styles.text, {marginTop: 20}]}>
+                    Welcome Back!
+                  </ThemedText>
+                  <ThemedText
+                    type="subtitle"
+                    style={[styles.text, { color: Colors.neutral.secondary }]}
+                  >
+                    Your work faster and structured with Todyapp
+                  </ThemedText>
 
-              <View style={{ marginTop: 40 }}>
-                <ThemedText style={styles.label}>Email Address</ThemedText>
-                <Input
-                  placeholder="name@example.com"
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                  value={values.email}
-                />
-                <HelperText
-                  type="error"
-                  visible={touched.email && errors.email ? true : false}
+                  <View style={{ marginTop: 40 }}>
+                    <ThemedText style={styles.label}>Email Address</ThemedText>
+                    <Input
+                      placeholder="name@example.com"
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                    />
+                    <HelperText
+                      type="error"
+                      visible={touched.email && errors.email ? true : false}
+                    >
+                      {errors.email}
+                    </HelperText>
+                  </View>
+                </View>
+                <Button
+                  mode="contained"
+                  onPress={(e) => handleSubmit()}
+                  style={styles.button}
+                  disabled={errors.email != null}
                 >
-                  {errors.email}
-                </HelperText>
+                  Next
+                </Button>
               </View>
-            </View>
-            <Button
-              mode="contained"
-              onPress={(e) => handleSubmit()}
-              style={styles.button}
-              disabled={errors.email != null}
-            >
-              Next
-            </Button>
-          </View>
-        )}
-      </Formik>
+            )}
+          </Formik>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

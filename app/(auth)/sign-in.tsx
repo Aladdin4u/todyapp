@@ -5,7 +5,16 @@ import { useSession } from "@/utils/ctx";
 import { useLocalSearchParams } from "expo-router";
 import { Formik, FormikValues } from "formik";
 import { useState } from "react";
-import { Alert, SafeAreaView, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
@@ -41,7 +50,7 @@ export default function SignInScreen() {
       if (data?.accessToken) {
         signIn(JSON.stringify(data));
       } else {
-        Alert.alert('Error',data.message);
+        Alert.alert("Error", data.message);
       }
     } catch (e) {
       console.error("err", e);
@@ -50,85 +59,96 @@ export default function SignInScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
-      <Formik
-        initialValues={{ email: email, username: "", password: "" }}
-        validationSchema={SigninSchema}
-        onSubmit={onSubmit}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
       >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
-          <View style={styles.form}>
-            <View>
-              <ThemedText type="defaultSemiBold" style={styles.text}>
-                Create account
-              </ThemedText>
-              <ThemedText
-                type="subtitle"
-                style={[styles.text, { color: Colors.neutral.secondary }]}
-              >
-                Create your account and feel the benefits
-              </ThemedText>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Formik
+            initialValues={{ email: email, username: "", password: "" }}
+            validationSchema={SigninSchema}
+            onSubmit={onSubmit}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+            }) => (
+              <View style={styles.form}>
+                <View>
+                  <ThemedText type="defaultSemiBold" style={styles.text}>
+                    Create account
+                  </ThemedText>
+                  <ThemedText
+                    type="subtitle"
+                    style={[styles.text, { color: Colors.neutral.secondary }]}
+                  >
+                    Create your account and feel the benefits
+                  </ThemedText>
 
-              <View style={{ marginTop: 40 }}>
-                <ThemedText style={styles.label}>Username</ThemedText>
-                <Input
-                  placeholder="Enter your username"
-                  onChangeText={handleChange("username")}
-                  onBlur={handleBlur("username")}
-                  value={values.username}
-                />
-                <HelperText
-                  type="error"
-                  visible={touched.username && errors.username ? true : false}
-                >
-                  {errors.username}
-                </HelperText>
-              </View>
-
-              <View style={{ marginTop: 12 }}>
-                <ThemedText style={styles.label}>Password</ThemedText>
-                <Input
-                  placeholder="Enter your password"
-                  onChangeText={handleChange("password")}
-                  onBlur={handleBlur("password")}
-                  value={values.password}
-                  secureTextEntry={!open}
-                  right={
-                    <TextInput.Icon
-                      icon={open ? "eye" : "eye-off"}
-                      onPress={() => setOpen(!open)}
+                  <View style={{ marginTop: 40 }}>
+                    <ThemedText style={styles.label}>Username</ThemedText>
+                    <Input
+                      placeholder="Enter your username"
+                      onChangeText={handleChange("username")}
+                      onBlur={handleBlur("username")}
+                      value={values.username}
                     />
+                    <HelperText
+                      type="error"
+                      visible={
+                        touched.username && errors.username ? true : false
+                      }
+                    >
+                      {errors.username}
+                    </HelperText>
+                  </View>
+
+                  <View style={{ marginTop: 12 }}>
+                    <ThemedText style={styles.label}>Password</ThemedText>
+                    <Input
+                      placeholder="Enter your password"
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      value={values.password}
+                      secureTextEntry={!open}
+                      right={
+                        <TextInput.Icon
+                          icon={open ? "eye" : "eye-off"}
+                          onPress={() => setOpen(!open)}
+                        />
+                      }
+                    />
+                    <HelperText
+                      type="error"
+                      visible={
+                        touched.password && errors.password ? true : false
+                      }
+                    >
+                      {errors.password}
+                    </HelperText>
+                  </View>
+                </View>
+                <Button
+                  mode="contained"
+                  onPress={(e) => handleSubmit()}
+                  style={styles.button}
+                  disabled={
+                    errors.email != null ||
+                    errors.username != null ||
+                    errors.password != null
                   }
-                />
-                <HelperText
-                  type="error"
-                  visible={touched.password && errors.password ? true : false}
                 >
-                  {errors.password}
-                </HelperText>
+                  Sign Up
+                </Button>
               </View>
-            </View>
-            <Button
-              mode="contained"
-              onPress={(e) => handleSubmit()}
-              style={styles.button}
-              disabled={
-                errors.email != null ||
-                errors.username != null ||
-                errors.password != null
-              }
-            >
-              Sign Up
-            </Button>
-          </View>
-        )}
-      </Formik>
+            )}
+          </Formik>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

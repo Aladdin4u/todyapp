@@ -3,7 +3,7 @@ import { Colors } from "@/constants/Colors";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { Button } from "react-native-paper";
 
@@ -45,9 +45,11 @@ const slides = [
 
 type Item = (typeof slides)[0];
 
+const windowHeight = Math.floor(Dimensions.get("window").height);
+
 export default function IntroScreen() {
   const [index, setIndex] = useState(0);
-  const isFirstScreen = index === 0; 
+  const isFirstScreen = index === 0;
 
   const renderItem = ({ item }: { item: Item }) => {
     return (
@@ -103,7 +105,7 @@ export default function IntroScreen() {
   const onDone = () => {
     router.navigate("/(auth)/home");
   };
-  
+
   const styles = StyleSheet.create({
     buttonNext: {
       borderRadius: 16,
@@ -113,7 +115,7 @@ export default function IntroScreen() {
     desc: {
       textAlign: "center",
       position: "absolute",
-      top: 410,
+      bottom: windowHeight / 2 - 220,
     },
     title: {
       textAlign: "center",
@@ -125,7 +127,6 @@ export default function IntroScreen() {
     image: {
       marginBottom: 4,
     },
-
     slide: {
       flex: 1,
       position: "relative",
@@ -135,7 +136,7 @@ export default function IntroScreen() {
     skip: {
       flex: 1,
       position: "absolute",
-      top: -568,
+      bottom: windowHeight - 68,
       right: 0,
     },
     skipText: {
@@ -148,11 +149,11 @@ export default function IntroScreen() {
       opacity: 1,
       borderRadius: 8,
       backgroundColor: isFirstScreen ? Colors.secondary : Colors.primary,
-      top: isFirstScreen ? -150 : 0,
+      top: isFirstScreen ? -(windowHeight / 2) + 150 : 0,
     },
     dotStyle: {
       backgroundColor: Colors.secondary,
-      top: isFirstScreen ? -150 : 0,
+      top: isFirstScreen ? -(windowHeight / 2) + 150 : 0,
     },
     dotStyleFirst: {
       backgroundColor: Colors.secondary,

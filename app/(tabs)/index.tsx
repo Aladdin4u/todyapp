@@ -2,9 +2,68 @@ import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { BarChart } from "react-native-gifted-charts";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
+  const data = [
+    {
+      value: 240,
+      label: "Mar",
+      spacing: 0, // Add spacing between grouped bars
+      labelTextStyle: { color: "gray" },
+      frontColor: Colors.primary, // Color for the first bar
+    },
+    {
+      value: 135,
+      frontColor: "#A7E4E2", // Color for the second bar
+    },
+    {
+      value: 200,
+      label: "May",
+      spacing: 0,
+      labelTextStyle: { color: "gray" },
+      frontColor: Colors.primary,
+    },
+    {
+      value: 230,
+      frontColor: "#A7E4E2",
+    },
+    {
+      value: 270,
+      label: "Jun",
+      spacing: 0,
+      labelTextStyle: { color: "gray" },
+      frontColor: Colors.primary,
+    },
+    {
+      value: 250,
+      frontColor: "#A7E4E2",
+    },
+    {
+      value: 280,
+      label: "Jul",
+      spacing: 0,
+      labelTextStyle: { color: "gray" },
+      frontColor: Colors.primary,
+    },
+    {
+      value: 280,
+      frontColor: "#A7E4E2",
+    },
+    {
+      value: 220,
+      label: "Aug",
+      spacing: 0,
+      labelTextStyle: { color: "gray" },
+      frontColor: Colors.primary,
+    },
+    {
+      value: 150,
+      frontColor: "#A7E4E2",
+    },
+  ];
+
   return (
     <SafeAreaView style={[styles.container]}>
       <View style={styles.row}>
@@ -39,6 +98,11 @@ export default function HomeScreen() {
             </ThemedText>
           </View>
         </View>
+      </View>
+
+      <View style={[styles.card, { padding: 12, gap: 12 }]}>
+        <ThemedText>Monthly Progress</ThemedText>
+        <BarChart data={data} color={Colors.primary} />
       </View>
     </SafeAreaView>
   );

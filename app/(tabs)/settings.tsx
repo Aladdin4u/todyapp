@@ -74,7 +74,6 @@ export default function SettingScreen() {
     const [isSwitchOn, setIsSwitchOn] = useState(true);
 
     const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-    console.log("ll", item);
 
     const handleClick = (item: LinkType) => {
       if (item.id === "8") {
